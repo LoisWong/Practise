@@ -12,6 +12,11 @@ public class Story {
 		this.taskList = new ArrayList<Task>();
 	}
 	
+	public Story(int id){
+		this.sid = id;
+		this.sDescription = "NULL";
+	}
+	
 	public int getStoryid(){
 		return sid;
 	}

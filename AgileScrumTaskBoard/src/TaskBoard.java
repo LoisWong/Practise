@@ -18,6 +18,8 @@ public class TaskBoard {
 				}
 				else if(args[1].equalsIgnoreCase("task") && args.length == 5){
 					int sid = Integer.parseInt(args[2]);
+					int tid = Integer.parseInt(args[3]);
+					modifyTask(sid,tid,args[4]);
 				}
 			}
 			else if(args[0].equalsIgnoreCase("list")){
@@ -66,7 +68,10 @@ public class TaskBoard {
 		for(int i=0; i<storyList.size(); i++){
 			//If the item is in the story list, modify its tasks
 			if(sid == storyList.get(i).getStoryid()){
-				storyList.get(i).completeTask();
+				Story s = storyList.get(i);
+				s.completeTask();
+				storyList.set(i, s);
+				break;
 			}
 		}
 	}
@@ -77,6 +82,25 @@ public class TaskBoard {
 			if(storyList.get(i).getStoryid() == sid){
 				storyList.remove(i);
 			}
+		}
+	}
+	
+	private static void modifyTask(int sid, int tid, String tdes){
+		boolean noStory = true;
+		int i = 0;
+		while(i<storyList.size()){
+			//If the item is in the story list
+			if(storyList.get(i).getStoryid() == sid){
+				noStory = false;
+				storyList.get(i).createTask(tid, tdes);
+				break;
+			}
+			i++;
+		}
+		if(noStory == true){
+			Story ns = new Story(sid);
+			ns.createTask(tid, tdes);
+			storyList.add(ns);
 		}
 	}
 }
