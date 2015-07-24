@@ -3,12 +3,10 @@ import java.util.ArrayList;
 
 public class TaskBoard {
 	private static ArrayList<Story> storyList;
-	private static ArrayList<Task> taskList;
 	
 	public static void main(String[] args){
 		try {
 			storyList = new ArrayList<Story>();
-			taskList = new ArrayList<Task>();
 			
 			if(args[0].equalsIgnoreCase("create")){
 				if(args[1].equalsIgnoreCase("story") && args.length == 4){
@@ -19,23 +17,85 @@ public class TaskBoard {
 				else if(args[1].equalsIgnoreCase("task") && args.length == 5){
 					int sid = Integer.parseInt(args[2]);
 					int tid = Integer.parseInt(args[3]);
-					modifyTask(sid,tid,args[4]);
+					int i = 0;
+					while(i<storyList.size()){
+						//If the item is in the story list
+						if(storyList.get(i).getStoryid() == sid){
+							storyList.get(i).createTask(tid, args[4]);
+							break;
+						}
+						i++;
+					}
+					if(i == storyList.size()){
+						Story ns = new Story(sid);
+						ns.createTask(tid, args[4]);
+						storyList.add(ns);
+					}
 				}
 			}
 			else if(args[0].equalsIgnoreCase("list")){
-				
+				if(args[1].equalsIgnoreCase("story")){
+					listStory();
+				}
+				else if(args[1].equalsIgnoreCase("task") && args.length == 3){
+					int sid = Integer.parseInt(args[2]);
+					for(int i=0; i<storyList.size(); i++){
+						//If the item is in the story list
+						if(storyList.get(i).getStoryid() == sid){
+							storyList.get(i).listTask();
+							break;
+						}
+					}
+				}
 			}
 			else if(args[0].equalsIgnoreCase("delete")){
-				
+				if(args[1].equalsIgnoreCase("story") && args.length == 3){
+					int sid = Integer.parseInt(args[2]);
+					deleteStory(sid);
+				}
+				else if(args[1].equalsIgnoreCase("task") && args.length == 4){
+					int sid = Integer.parseInt(args[2]);
+					int tid = Integer.parseInt(args[3]);
+					for(int i=0; i<storyList.size(); i++){
+						//If the item is in the story list
+						if(storyList.get(i).getStoryid() == sid){
+							storyList.get(i).deleteTask(tid);
+							break;
+						}
+					}
+				}
 			}
 			else if(args[0].equalsIgnoreCase("complete")){
-				
+				if(args[1].equalsIgnoreCase("story") && args.length == 3){
+					int sid = Integer.parseInt(args[2]);
+					completeStory(sid);
+				}
 			}
 			else if(args[0].equalsIgnoreCase("move")){
-				
+				if(args[1].equalsIgnoreCase("task") && args.length == 5){
+					int sid = Integer.parseInt(args[2]);
+					int tid = Integer.parseInt(args[3]);
+					for(int i=0; i<storyList.size(); i++){
+							//If the item is in the story list
+							if(storyList.get(i).getStoryid() == sid){
+								storyList.get(i).moveTask(tid, args[4]);
+								break;
+							}
+					}
+				}
 			}
 			else if(args[0].equalsIgnoreCase("update")){
-				
+				if(args[1].equalsIgnoreCase("task") && args.length == 5){
+					int sid = Integer.parseInt(args[2]);
+					int tid = Integer.parseInt(args[3]);
+					for(int i=0; i<storyList.size(); i++){
+							//If the item is in the story list
+							if(storyList.get(i).getStoryid() == sid){
+								storyList.get(i).updateTask(tid, args[4]);
+								break;
+							}
+					}
+				}
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
 			System.out.println("Input format error");
@@ -68,9 +128,10 @@ public class TaskBoard {
 		for(int i=0; i<storyList.size(); i++){
 			//If the item is in the story list, modify its tasks
 			if(sid == storyList.get(i).getStoryid()){
-				Story s = storyList.get(i);
+				storyList.get(i).completeTask();
+				/*Story s = storyList.get(i);
 				s.completeTask();
-				storyList.set(i, s);
+				storyList.set(i, s);*/
 				break;
 			}
 		}
@@ -84,23 +145,5 @@ public class TaskBoard {
 			}
 		}
 	}
-	
-	private static void modifyTask(int sid, int tid, String tdes){
-		boolean noStory = true;
-		int i = 0;
-		while(i<storyList.size()){
-			//If the item is in the story list
-			if(storyList.get(i).getStoryid() == sid){
-				noStory = false;
-				storyList.get(i).createTask(tid, tdes);
-				break;
-			}
-			i++;
-		}
-		if(noStory == true){
-			Story ns = new Story(sid);
-			ns.createTask(tid, tdes);
-			storyList.add(ns);
-		}
-	}
+
 }
