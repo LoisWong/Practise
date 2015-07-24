@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 
 public class TaskBoard {
@@ -7,40 +8,48 @@ public class TaskBoard {
 	public static void main(String[] args){
 		try {
 			storyList = new ArrayList<Story>();
+			Scanner s = new Scanner(System.in).useDelimiter("\\s+");
 			
-			if(args[0].equalsIgnoreCase("create")){
-				if(args[1].equalsIgnoreCase("story") && args.length == 4){
-					int sid = Integer.parseInt(args[2]);
-					String Des = args[3];
-					createStory(sid, Des);
+			if(s.next().equalsIgnoreCase("create") && s.hasNext()){
+				/*----If the input command line contain CREATE
+				then check what kind of data is going to be created.
+				Pattern is checking if the input format is correct----*/
+				if(s.next().equalsIgnoreCase("story") && s.hasNext("\\d+\\s+\\w+")){
+					int sid = s.nextInt();
+					String sDes = s.next();
+					createStory(sid, sDes);
 				}
-				else if(args[1].equalsIgnoreCase("task") && args.length == 5){
-					int sid = Integer.parseInt(args[2]);
-					int tid = Integer.parseInt(args[3]);
+				else if(s.next().equalsIgnoreCase("task") && s.hasNext("\\d+\\s+\\d+\\s+\\w+")){
+					int sid = s.nextInt();
+					int tid = s.nextInt();
+					String tDes = s.next();
 					int i = 0;
 					while(i<storyList.size()){
 						//If the item is in the story list
 						if(storyList.get(i).getStoryid() == sid){
-							storyList.get(i).createTask(tid, args[4]);
+							storyList.get(i).createTask(tid, tDes);
 							break;
 						}
 						i++;
 					}
 					if(i == storyList.size()){
 						Story ns = new Story(sid);
-						ns.createTask(tid, args[4]);
+						ns.createTask(tid, tDes);
 						storyList.add(ns);
 					}
 				}
 			}
-			else if(args[0].equalsIgnoreCase("list")){
-				if(args[1].equalsIgnoreCase("story")){
+			else if(s.next().equalsIgnoreCase("list") && s.hasNext()){
+				/*----If the input command line contain LIST
+				then check what kind of data is going to be listed.
+				Pattern is checking if the input format is correct----*/
+				if(s.next().equalsIgnoreCase("story")){
 					listStory();
 				}
-				else if(args[1].equalsIgnoreCase("task") && args.length == 3){
-					int sid = Integer.parseInt(args[2]);
+				else if(s.next().equalsIgnoreCase("task") && s.hasNext("\\d+")){
+					int sid = s.nextInt();
 					for(int i=0; i<storyList.size(); i++){
-						//If the item is in the story list
+						//Check if the item is in the story list
 						if(storyList.get(i).getStoryid() == sid){
 							storyList.get(i).listTask();
 							break;
@@ -48,14 +57,17 @@ public class TaskBoard {
 					}
 				}
 			}
-			else if(args[0].equalsIgnoreCase("delete")){
-				if(args[1].equalsIgnoreCase("story") && args.length == 3){
-					int sid = Integer.parseInt(args[2]);
+			else if(s.next().equalsIgnoreCase("delete") && s.hasNext()){
+				/*----If the input command line contain DELETE
+				then check what kind of data is going to be deleted.
+				Pattern is checking if the input format is correct----*/
+				if(s.next().equalsIgnoreCase("story") && s.hasNext("\\d+")){
+					int sid = s.nextInt();
 					deleteStory(sid);
 				}
-				else if(args[1].equalsIgnoreCase("task") && args.length == 4){
-					int sid = Integer.parseInt(args[2]);
-					int tid = Integer.parseInt(args[3]);
+				else if(s.next().equalsIgnoreCase("task") && s.hasNext("\\d+\\s+\\d+")){
+					int sid = s.nextInt();
+					int tid = s.nextInt();
 					for(int i=0; i<storyList.size(); i++){
 						//If the item is in the story list
 						if(storyList.get(i).getStoryid() == sid){
@@ -65,33 +77,44 @@ public class TaskBoard {
 					}
 				}
 			}
-			else if(args[0].equalsIgnoreCase("complete")){
-				if(args[1].equalsIgnoreCase("story") && args.length == 3){
-					int sid = Integer.parseInt(args[2]);
+			else if(s.next().equalsIgnoreCase("complete") && s.hasNext()){
+				/*----If the input command line contain COMPLETE
+				then turn the story into complete.
+				Pattern is checking if the input format is correct----*/
+				if(s.next().equalsIgnoreCase("story") && s.hasNextInt()){
+					int sid = s.nextInt();
 					completeStory(sid);
 				}
 			}
-			else if(args[0].equalsIgnoreCase("move")){
-				if(args[1].equalsIgnoreCase("task") && args.length == 5){
-					int sid = Integer.parseInt(args[2]);
-					int tid = Integer.parseInt(args[3]);
+			else if(s.next().equalsIgnoreCase("move") && s.hasNext()){
+				/*----If the input command line contain MOVE
+				then basing on story id and task id to find the task Column.
+				Pattern is checking if the input format is correct----*/
+				if(s.next().equalsIgnoreCase("task") && s.hasNext("\\d+\\s+\\d+\\s+\\w+")){
+					int sid = s.nextInt();
+					int tid = s.nextInt();
+					String col = s.next();
 					for(int i=0; i<storyList.size(); i++){
 							//If the item is in the story list
 							if(storyList.get(i).getStoryid() == sid){
-								storyList.get(i).moveTask(tid, args[4]);
+								storyList.get(i).moveTask(tid, col);
 								break;
 							}
 					}
 				}
 			}
-			else if(args[0].equalsIgnoreCase("update")){
-				if(args[1].equalsIgnoreCase("task") && args.length == 5){
-					int sid = Integer.parseInt(args[2]);
-					int tid = Integer.parseInt(args[3]);
+			else if(s.next().equalsIgnoreCase("update") && s.hasNext()){
+				/*----If the input command line contain UPDATE
+				then basing on story id and task id to find the task Description.
+				Pattern is checking if the input format is correct----*/
+				if(s.next().equalsIgnoreCase("task") && s.hasNext("\\d+\\s+\\d+\\s+\\w+")){
+					int sid = s.nextInt();
+					int tid = s.nextInt();
+					String des = s.next();
 					for(int i=0; i<storyList.size(); i++){
 							//If the item is in the story list
 							if(storyList.get(i).getStoryid() == sid){
-								storyList.get(i).updateTask(tid, args[4]);
+								storyList.get(i).updateTask(tid, des);
 								break;
 							}
 					}
