@@ -167,8 +167,8 @@ public class TaskBoard {
 		//If it is a new story, add it
 		if(flag == false){
 			storyList.add(s);
-			listStory();
 		}
+		listStory();
 	}
 	
 	private static void listStory(){
@@ -197,6 +197,7 @@ public class TaskBoard {
 				storyList.remove(i);
 			}
 		}
+		listStory();
 	}
 
 }
