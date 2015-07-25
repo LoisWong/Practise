@@ -2,17 +2,20 @@ import java.util.ArrayList;
 
 
 public class Story {
+	//A basic story contains a story id, description and its tasks
 	private int sid;
 	private String sDescription;
 	private ArrayList<Task> taskList;
 	
 	public Story(int id, String des){
+		//Constructor
 		this.sid = id;
 		this.sDescription = des;
 		this.taskList = new ArrayList<Task>();
 	}
 	
 	public Story(int id){
+		//Building a default story without input description
 		this.sid = id;
 		this.sDescription = "NULL";
 		this.taskList = new ArrayList<Task>();
@@ -27,6 +30,7 @@ public class Story {
 	}
 	
 	public void createTask(int tid, String Description){
+		//Create tasks for the story
 		Task t = new Task(tid,Description);
 		boolean flag = false;
 		for(int i=0; i<taskList.size(); i++){
@@ -64,7 +68,7 @@ public class Story {
 					break looking;
 				}
 				else{
-					//---Further design: restrict columns value---
+					//---Further design: restrict columns value---//
 					taskList.get(i).setTaskColumn(column);
 				}
 			}

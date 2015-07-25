@@ -10,24 +10,25 @@ public class TaskBoard {
 		try {
 			storyList = new ArrayList<Story>();
 			Scanner sn = new Scanner(System.in);
+			String cm,item;
 			
 			while (true) {
 				sn.useDelimiter("\\s+");
-				// String s = sn.next().toString();
-				// System.out.println(s);
-				if (sn.hasNext() && sn.next().equalsIgnoreCase("create")) {
-					// String s = sn.next().toString();
-					// System.out.print(s);
+				cm = sn.next();
+				item = sn.next();
+				if (sn.hasNext() && cm.equalsIgnoreCase("create")) {
+					
 					/*----If the input command line contain CREATE
 					then check what kind of data is going to be created.
-					Pattern is checking if the input format is correct----*/
-					if (sn.hasNext() && sn.next().equalsIgnoreCase("story")) {
-						// String s = sn.next().toString();
-						// System.out.print(s);
+					Checking if the input format is correct before execute----*/
+					
+					if (sn.hasNext() && item.equalsIgnoreCase("story")) {
+						//Create story
 						int sid = sn.nextInt();
 						String sDes = sn.next();
 						createStory(sid, sDes);
-					} else if (sn.hasNext() && sn.next().equalsIgnoreCase("task")) {
+					} else if (sn.hasNext() && item.equalsIgnoreCase("task")) {
+						//create task
 						int sid = sn.nextInt();
 						int tid = sn.nextInt();
 						String tDes = sn.next();
@@ -40,21 +41,25 @@ public class TaskBoard {
 							}
 							i++;
 						}
+						/*If the task is not belonging to an story which is exist
+						then create a story with default setting */
 						if (i == storyList.size()) {
 							Story ns = new Story(sid);
 							ns.createTask(tid, tDes);
 							storyList.add(ns);
 						}
 					}
-				} else if (sn.hasNext() && sn.next().equalsIgnoreCase("list")) {
+				} else if (cm.equalsIgnoreCase("list")) {
+					
 					/*----If the input command line contain LIST
-					then check what kind of data is going to be listed.
-					Pattern is checking if the input format is correct----*/
-					if (sn.next().matches("stor(.*)")) {
+					then check what kind of data is going to be listed.----*/
+					
+					if (item.startsWith("stor")){
 						// If the command word match story/stories, then list it
 						listStory();
-					} else if (sn.hasNext() && sn.next().matches("task(.*)")) {
-						// Allow command with task/tasks
+					} else if (sn.hasNext() && item.startsWith("task")) {
+						// Checking if the input format is correct before execute
+						// Command could be task or tasks
 						int sid = sn.nextInt();
 						for (int i = 0; i < storyList.size(); i++) {
 							// Check if the item is in the story list
@@ -64,40 +69,53 @@ public class TaskBoard {
 							}
 						}
 					}
-				} else if (sn.hasNext() && sn.next().equalsIgnoreCase("delete")) {
+				} else if (sn.hasNext() && cm.equalsIgnoreCase("delete")) {
+					
 					/*----If the input command line contain DELETE
 					then check what kind of data is going to be deleted.
-					Pattern is checking if the input format is correct----*/
-					if (sn.hasNext() && sn.next().equalsIgnoreCase("story")) {
+					Checking if the input format is correct before execute----*/
+					
+					if (item.equalsIgnoreCase("story")) {
 						int sid = sn.nextInt();
 						deleteStory(sid);
-					} else if (sn.hasNext() && sn.next().equalsIgnoreCase("task")) {
+					} else if (sn.hasNext() && item.equalsIgnoreCase("task")) {
 						int sid = sn.nextInt();
 						int tid = sn.nextInt();
 						for (int i = 0; i < storyList.size(); i++) {
-							// If the item is in the story list
+							// Checking if the item is in the story list
 							if (storyList.get(i).getStoryid() == sid) {
 								storyList.get(i).deleteTask(tid);
 								break;
 							}
 						}
 					}
-				} else if (sn.hasNext() && sn.next().equalsIgnoreCase("complete")) {
+				} else if (sn.hasNext() && cm.equalsIgnoreCase("complete")) {
+					
 					/*----If the input command line contain COMPLETE
 					then turn the story into complete.
-					Pattern is checking if the input format is correct----*/
-					if (sn.next().equalsIgnoreCase("story") && sn.hasNextInt()) {
+					Checking if the input format is correct before execute----*/
+					
+					if (item.equalsIgnoreCase("story")) {
 						int sid = sn.nextInt();
 						completeStory(sid);
 					}
-				} else if (sn.hasNext() && sn.next().equalsIgnoreCase("move")) {
+				} else if (sn.hasNext() && cm.equalsIgnoreCase("move")) {
+					
 					/*----If the input command line contain MOVE
 					then basing on story id and task id to find the task Column.
-					Pattern is checking if the input format is correct----*/
-					if (sn.hasNext() && sn.next().equalsIgnoreCase("task")) {
+					Checking if the input format is correct before execute----*/
+					
+					if (sn.hasNext() && item.equalsIgnoreCase("task")) {
 						int sid = sn.nextInt();
 						int tid = sn.nextInt();
-						String col = sn.next();
+						String col;
+						if (sn.hasNext()){
+							//If the input format is legal, then set into new column 
+							col = sn.next();
+						}else {
+							//Otherwise, set the task into To Do list 
+							col = "To Do";
+						}
 						for (int i = 0; i < storyList.size(); i++) {
 							// If the item is in the story list
 							if (storyList.get(i).getStoryid() == sid) {
@@ -106,14 +124,21 @@ public class TaskBoard {
 							}
 						}
 					}
-				} else if (sn.hasNext() && sn.next().equalsIgnoreCase("update")) {
+				} else if (sn.hasNext() && cm.equalsIgnoreCase("update")) {
+					
 					/*----If the input command line contain UPDATE
 					then basing on story id and task id to find the task Description.
 					Pattern is checking if the input format is correct----*/
-					if (sn.hasNext() && sn.next().equalsIgnoreCase("task")) {
+					
+					if (sn.hasNext() && item.equalsIgnoreCase("task")) {
 						int sid = sn.nextInt();
 						int tid = sn.nextInt();
-						String des = sn.next();
+						String des;
+						if (sn.hasNext()){
+							des = sn.next();
+						}else {
+							des = "NULL";
+						}
 						for (int i = 0; i < storyList.size(); i++) {
 							// If the item is in the story list
 							if (storyList.get(i).getStoryid() == sid) {
@@ -125,7 +150,7 @@ public class TaskBoard {
 				}
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
-			System.out.println("Input format error");
+			System.out.println("Building error");
 		}
 	}
 	
@@ -142,7 +167,7 @@ public class TaskBoard {
 		//If it is a new story, add it
 		if(flag == false){
 			storyList.add(s);
-			//listStory();
+			listStory();
 		}
 	}
 	
