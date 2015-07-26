@@ -1,13 +1,21 @@
 package taskboard;
 
 public class Task {
+	//A basic task contains a task id, description and its position(column)
 	private int tid;
 	private String tDescription;
 	private int column;
+	//Setting column as integer for further operation
+	//1: To Do
+	//2: In Process
+	//3: To Verify
+	//4: Done
 	
 	public Task(int id, String tDes) {
+		//Using task id and description to build a task
 		this.tid = id;
 		this.tDescription = tDes;
+		//Initial column as to do
 		this.column = 1;
 	}
 	
@@ -48,23 +56,32 @@ public class Task {
 		if (nowCol == 4){
 			System.out.println("This task is done");
 		}else{
-			//If the task is now in verification, it can move to "to do" or "in process"
+			//If the task is now in verification, it can move to every column
 			if (nowCol == 3 && col.equalsIgnoreCase("to do")){
 				this.column = 1;
+				System.out.println("moved");
 			}
 			else if (nowCol == 3 && col.equalsIgnoreCase("in process")){
 				this.column = 2;
+				System.out.println("moved");
+			}
+			else if (nowCol == 3 && col.equalsIgnoreCase("done")){
+				this.column = 4;
+				System.out.println("moved");
 			}
 			//If the task is now in process, then it could be moved to "to do" or "to verify"
 			else if (nowCol == 2 && col.equalsIgnoreCase("to do")){
 				this.column = 1;
+				System.out.println("moved");
 			}
 			else if (nowCol == 2 && col.equalsIgnoreCase("to verify")){
 				this.column = 3;
+				System.out.println("moved");
 			}
 			//If the task is in to do list, then it can only be moved to "in process"
 			else if (nowCol == 1 && col.equalsIgnoreCase("in process")){
 				this.column = 2;
+				System.out.println("moved");
 			}
 			else System.out.println("Illegal task moving");
 		}
