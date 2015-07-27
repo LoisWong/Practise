@@ -13,9 +13,8 @@ public class isNumber {
 		}while (!s.equalsIgnoreCase("exit"));
 	}
     public static boolean isNumber(String n) {
-    	String s = n.trim();
-
-        boolean pointSeen = false;
+    	String s = n.replaceAll("\\s+","");
+    	boolean pointSeen = false;
         boolean eSeen = false;
         boolean numberSeen = false;
         boolean numberAfterE = true;
