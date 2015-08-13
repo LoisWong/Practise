@@ -23,7 +23,6 @@ public class MostContainer {
         	if (area > max){
         		max = area;
         	}
-        	//find the less height of now container 
         	if (height[near] > height[far]){
         		int low = height[far];
         		do{far--;}while(height[far]<low);
