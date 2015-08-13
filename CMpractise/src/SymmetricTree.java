@@ -4,7 +4,7 @@ public class SymmetricTree {
 	    return root==null || isSymmetricHelp(root.left, root.right);
 	}
 
-	private boolean isSymmetricHelp(TreeLinkNode left, TreeLnkNode right){
+	private boolean isSymmetricHelp(TreeLinkNode left, TreeLinkNode right){
 	    if(left==null || right==null)
 	        return left==right;
 	    if(left.val!=right.val)
