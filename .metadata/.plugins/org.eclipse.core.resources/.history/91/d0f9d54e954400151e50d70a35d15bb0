@@ -1,0 +1,27 @@
+
+public class RemoveDuplicated {
+	public static void main(String[] args){
+		int[] nums = {1,1};
+		int nl = removeDuplicates(nums);
+		System.out.print(nl);
+		for (int i = 0; i < nl; i++){
+			System.out.print(nums[i]);
+		}
+	}
+	public static int removeDuplicates(int[] nums) {
+		int length = nums.length;
+		if (nums.length <= 1) return nums.length;
+        for (int i = 1; i < nums.length; i++){
+        	if (nums[i] == nums[i-1]){
+        		int j = i;
+        		while (nums[j] == nums[i-1] && (j < nums.length)){
+        			j++;
+        			length--;
+        		}
+        		nums[i] = nums[j];
+        		i = j;
+        	}
+        }
+        return length;
+    }
+}
