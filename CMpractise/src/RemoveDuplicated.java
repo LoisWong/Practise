@@ -9,7 +9,7 @@ public class RemoveDuplicated {
 		}
 	}
 	public static int removeDuplicates(int[] nums) {
-		//一位错位
+		
 		int length = nums.length;
 		int j = 1;
 		if (nums.length <= 1) 
