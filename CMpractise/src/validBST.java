@@ -1,17 +1,17 @@
 
 public class validBST {
     public boolean isValidBST(TreeLinkNode root) {
-    	if (root == null){
-    		return false;
-    	}
-        if (root.left == null && root.right == null){
-        	return true;
-        }else{
-        	if (root.left != null && root.left.val < root.val){
-        		isValidBST(root.left);
-        	}else if (root.right != null && root.right.val > root.val){
-        		isValidBST(root.right);
-        	}return false;
-        }
+    	return helper(root, null, null);
+    }
+
+    boolean helper(TreeLinkNode root, Integer min, Integer max) {
+        if (root == null)
+            return true;
+
+        if ((min != null && root.val <= min) || (max != null && root.val >= max))
+            return false;
+
+        return helper(root.left, min, root.val) && helper(root.right, root.val, max);
     }
 }
+
