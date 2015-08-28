@@ -1,0 +1,19 @@
+
+public class reverseBit {
+	public static void main(String[] args){
+		int x = 43261596;
+		System.out.println(Integer.toBinaryString(x));
+		int y = reverseBits(x);
+		System.out.println(y);
+		System.out.println(Integer.toBinaryString(y));
+	}
+    public static int reverseBits(int n) {
+    	int m=0;
+        int sign = (n<0)?-1:1; 
+        while (n != 0){
+        	m = m << 1 + n%2;
+        	n = n >> 1;
+        }
+        return m*sign;
+    }
+}
