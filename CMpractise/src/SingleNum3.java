@@ -1,4 +1,5 @@
 import java.util.HashSet;
+import java.util.Set;
 
 
 public class SingleNum3 {
@@ -22,4 +23,18 @@ public class SingleNum3 {
 	    ans[1]= (Integer) test[1];
 	    return ans;
 	}
+	/*public int[] singleNumber(int[] nums) {
+	    Set<Integer> set = new HashSet<Integer>();
+	    for(int i:nums){
+	         if(set.add(i)==false)
+	         set.remove(i);
+	    }
+	    int a[]= new int [set.size()];
+	    int c=0;
+	    for(int b:set){
+	        a[c]=b;
+	        c++;
+	    }
+	    return a;
+	}*/
 }
