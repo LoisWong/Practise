@@ -17,6 +17,7 @@ public class missNum {
         	}
         }
 		return i;*/
+
 		//As it is only one number is missing
 		int end = nums.length;
 		int sum = 0;
